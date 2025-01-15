@@ -8,6 +8,9 @@ import { StatusBar } from "expo-status-bar";
 import { useRouter } from "expo-router";
 
 export default function OrdersScreen() {
+    // const url = "http://localhost:3000";
+    const url = "https://indian-valley-server.onrender.com";
+
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     const [orders, setOrders] = useState([]);
@@ -16,77 +19,62 @@ export default function OrdersScreen() {
     const router = useRouter();
 
     const fetchOrders = async () => {
-        // try {
-        //     const response = await fetch('http://localhost:3000/orders');
-        //     const orders = await response.json();
-        //     setOrders(orders);
-        //
-        //     // console.log("from server:", orders); // Process orders in the app
-        // } catch (error) {
-        //     console.error('Error fetching orders:', error);
-        // }
-        setOrders( [{"created_at": "2025-01-14T22:45:44.333024+00:00", "customer_name": "Mumin Ali", "id": 2, "is_delivery": true, "items": [
-                {
-                    "name": "Popadom",
-                    "quantity": 3
-                },
-                {
-                    "name": "Mint Sauce",
-                    "quantity": 1
-                },
-                {
-                    "name": "Sheek Kebab Main",
-                    "quantity": 1
-                },
-                {
-                    "name": "Garlic Naan",
-                    "quantity": 2
-                }
-            ], "payment_method": "cash", "status": "Pending", "target_time": "13:28:06", "total_price": 30.98},
-            {"created_at": "2025-01-14T22:32:02.551548+00:00", "customer_name": "John Doe", "id": 1, "is_delivery": false, "items": [
-                    {
-                        "name": "Butter Chicken",
-                        "quantity": 1
-                    },
-                    {
-                        "name": "Garlic Naan",
-                        "quantity": 2
-                    }
-            ], "payment_method": "cash", "status": "Pending", "target_time": "13:28:06", "total_price": 20.98}])
+        try {
+            const response = await fetch(`${url}/orders`);
+            const orders = await response.json();
+            setOrders(orders);
 
+            // console.log("from server:", orders); // Process orders in the app
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+        }
+
+        // for testing
+    //     setOrders( [{"created_at": "2025-01-14T22:45:44.333024+00:00", "customer_name": "Mumin Ali", "id": 2, "is_delivery": true, "items": [
+    //             {
+    //                 "name": "Popadom",
+    //                 "quantity": 3
+    //             },
+    //             {
+    //                 "name": "Mint Sauce",
+    //                 "quantity": 1
+    //             },
+    //             {
+    //                 "name": "Sheek Kebab Main",
+    //                 "quantity": 1
+    //             },
+    //             {
+    //                 "name": "Garlic Naan",
+    //                 "quantity": 2
+    //             }
+    //         ], "payment_method": "cash", "status": "Pending", "target_time": "13:28:06", "total_price": 30.98},
+    //         {"created_at": "2025-01-14T22:32:02.551548+00:00", "customer_name": "John Doe", "id": 1, "is_delivery": false, "items": [
+    //                 {
+    //                     "name": "Butter Chicken",
+    //                     "quantity": 1
+    //                 },
+    //                 {
+    //                     "name": "Garlic Naan",
+    //                     "quantity": 2
+    //                 }
+    //         ], "payment_method": "cash", "status": "Pending", "target_time": "13:28:06", "total_price": 20.98}])
+    //
     };
 
     useEffect(() => {
         fetchOrders();
-        //
-        // const subscription = supabase
-        //     .from('orders')
-        //     .on('INSERT', (payload) => {
-        //         setOrders((prev) => [payload.new, ...prev]);
-        //     })
-        //     .on('UPDATE', (payload) => {
-        //         setOrders((prev) =>
-        //             prev.map((order) =>
-        //                 order.id === payload.new.id ? payload.new : order
-        //             )
-        //         );
-        //     })
-        //     .subscribe();
-        //
-        // return () => {
-        //     supabase.removeSubscription(subscription);
-        // };
     }, []);
 
     return (
         <SafeAreaView className="bg-white">
             <StatusBar style="dark"/>
+            <Text className="text-center text-xl font-extrabold text-red-500">ALL ORDERS</Text>
+
             <ScrollView showsVerticalScrollIndicator={false}
                         contentContainerStyle={{paddingBottom: 20}}
                         className="h-screen bg-white">
 
                 <View className="mt-3">
-                    <Text className="text-center text-xl font-extrabold text-red-500">ALL ORDERS</Text>
                     {
                         orders.map((order, index) => {
                             let isActive = (order.id === pressedOrderId)
