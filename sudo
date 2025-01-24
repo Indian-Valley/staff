@@ -1,0 +1,4 @@
+export ANDROID_HOME=/Users/muminali13/Library/Android/sdk /Users/muminali13/.zshrc
+export PATH=/platform-tools: /Users/muminali13/.zshrc
+export PATH=/tools: /Users/muminali13/.zshrc
+export PATH=/tools/bin: /Users/muminali13/.zshrc
